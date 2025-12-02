@@ -1,0 +1,22 @@
+# Vercel 배포 자동화 (선택사항)
+# Vercel이 자동으로 배포하므로 이 파일은 필요 없지만,
+# GitHub Actions를 사용하고 싶다면 참고용으로 남겨둡니다.
+
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install
+      - run: npm run build
+
