@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Result, Dimension } from '@/lib/types';
 import {
@@ -11,7 +11,7 @@ import {
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, ResponsiveContainer } from 'recharts';
 import { toPng } from 'html-to-image';
 
-export default function ResultPage() {
+function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [result, setResult] = useState<Result | null>(null);
@@ -131,7 +131,7 @@ export default function ResultPage() {
             당신의 학습·진로 스타일 결과
           </h1>
           <p className="text-gray-600 text-sm md:text-base">
-            점수는 성격을 '줄 세우기'가 아니라, <strong>정보를 어떻게 처리하는지에 대한 경향</strong>을 보여줘요.
+            점수는 성격을 &apos;줄 세우기&apos;가 아니라, <strong>정보를 어떻게 처리하는지에 대한 경향</strong>을 보여줘요.
           </p>
         </div>
 
@@ -303,6 +303,20 @@ export default function ResultPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">결과를 불러오는 중...</p>
+        </div>
+      </main>
+    }>
+      <ResultContent />
+    </Suspense>
   );
 }
 
