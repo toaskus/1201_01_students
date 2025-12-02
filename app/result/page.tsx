@@ -235,10 +235,6 @@ function ResultContent() {
                     <p className="font-semibold mb-1">대학에서의 공부법 추천</p>
                     <p className="text-sm whitespace-pre-line">{dimensionDescriptions[dim].studyMethod}</p>
                   </div>
-                  <div>
-                    <p className="font-semibold mb-1">추천 전공/진로 키워드</p>
-                    <p className="text-sm">{dimensionDescriptions[dim].majorKeywords}</p>
-                  </div>
                 </div>
               </div>
             ))}
