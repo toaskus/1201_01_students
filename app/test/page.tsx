@@ -172,21 +172,15 @@ export default function TestPage() {
                     <div className="flex gap-2 flex-shrink-0">
                       {[4, 3, 2, 1].map((score) => {
                         const isSelected = selectedScore === score;
-                        const currentAnswerForQuestion = answers.find((a) => a.questionId === currentQuestion.id);
-                        const isConflict = !isSelected && currentAnswerForQuestion
-                          ?.scores.some((s) => s.score === score && s.optionId !== option.id);
 
                         return (
                           <button
                             key={score}
                             onClick={() => handleScoreChange(option.id, score)}
-                            disabled={!!isConflict}
                             className={`
                               w-12 h-12 rounded-lg font-semibold transition-all
                               ${isSelected
                                 ? 'bg-blue-600 text-white shadow-md'
-                                : isConflict
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                               }
                             `}
