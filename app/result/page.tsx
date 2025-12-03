@@ -128,7 +128,7 @@ function ResultContent() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            당신의 학습·진로 스타일 결과
+            당신의 학습·업무 스타일 결과
           </h1>
           <p className="text-gray-600 text-sm md:text-base">
             점수는 성격을 &apos;줄 세우기&apos;가 아니라, <strong>정보를 어떻게 처리하는지에 대한 경향</strong>을 보여줘요.
@@ -232,7 +232,7 @@ function ResultContent() {
                     <p className="text-sm">{dimensionDescriptions[dim].processing}</p>
                   </div>
                   <div>
-                    <p className="font-semibold mb-1">대학에서의 공부법 추천</p>
+                    <p className="font-semibold mb-1">효과적인 학습법 추천</p>
                     <p className="text-sm whitespace-pre-line">{dimensionDescriptions[dim].studyMethod}</p>
                   </div>
                 </div>
@@ -241,22 +241,22 @@ function ResultContent() {
           </div>
         </div>
 
-        {/* 고3 맞춤 솔루션 */}
+        {/* 맞춤 솔루션 */}
         <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">고3 맞춤 솔루션</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">나에게 맞는 솔루션</h2>
           <div className="space-y-4">
             {result.primary.map((dim) => (
               <div key={dim} className="space-y-4">
                 <div className="p-4 bg-blue-50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900 mb-2">🎓 대학 강의 들을 때 이렇게 해보면 좋아요</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">📚 학습할 때 이렇게 해보면 좋아요</h3>
                   <p className="text-sm text-gray-700">{studyTips[dim].lecture}</p>
                 </div>
                 <div className="p-4 bg-green-50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900 mb-2">🧠 시험·과제 준비 공부법</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">💼 업무·과제 준비 방법</h3>
                   <p className="text-sm text-gray-700">{studyTips[dim].exam}</p>
                 </div>
                 <div className="p-4 bg-purple-50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900 mb-2">🧭 전공·진로 탐색 시 체크 포인트</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">🎯 진로·직업 탐색 시 체크 포인트</h3>
                   <p className="text-sm text-gray-700">{studyTips[dim].career}</p>
                 </div>
                 <div className="p-4 bg-orange-50 rounded-lg">

@@ -60,7 +60,7 @@ git commit -m "Initial commit: VAKD Finder 서비스 구현"
 2. **우측 상단의 "+" 버튼 클릭** → "New repository" 선택
 3. **저장소 정보 입력**:
    - Repository name: `vakd-finder` (또는 원하는 이름)
-   - Description: "수능 이후 고3을 위한 학습·진로 성향 진단 서비스"
+   - Description: "일반 성인을 위한 학습·업무 성향 진단 서비스"
    - Visibility: Public 또는 Private 선택
    - **⚠️ 중요**: "Initialize this repository with a README" 체크 해제
 4. **"Create repository" 버튼 클릭**

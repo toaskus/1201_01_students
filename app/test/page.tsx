@@ -224,7 +224,14 @@ export default function TestPage() {
           {currentQuestionIndex < questions.length - 1 ? (
             <button
               onClick={handleNext}
-              className="px-6 py-3 rounded-lg font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700"
+              disabled={!isCurrentQuestionComplete()}
+              className={`
+                px-6 py-3 rounded-lg font-medium transition-colors
+                ${isCurrentQuestionComplete()
+                  ? 'bg-blue-600 text-white hover:bg-blue-700'
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                }
+              `}
             >
               다음
             </button>

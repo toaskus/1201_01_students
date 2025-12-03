@@ -7,12 +7,12 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            수능은 끝났지만,
+            나를 알아가는 여정,
             <br />
-            진짜 시작은 지금부터.
+            지금 시작해보세요.
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 mb-8">
-            VAKD 진단으로 <span className="font-semibold text-blue-600">나만의 학습·진로 스타일</span>을 알아보세요.
+            VAKD 진단으로 <span className="font-semibold text-blue-600">나만의 학습·업무 스타일</span>을 알아보세요.
           </p>
         </div>
 
@@ -52,11 +52,11 @@ export default function Home() {
             </li>
             <li className="flex items-start">
               <span className="text-blue-600 mr-2">•</span>
-              <span>대학생활에 도움이 되는 맞춤형 가이드를 받아보세요</span>
+              <span>일상생활과 업무에 도움이 되는 맞춤형 가이드를 받아보세요</span>
             </li>
             <li className="flex items-start">
               <span className="text-blue-600 mr-2">•</span>
-              <span>나에게 맞는 전공과 진로 방향을 탐색해보세요</span>
+              <span>나에게 맞는 직업과 진로 방향을 탐색해보세요</span>
             </li>
           </ul>
         </div>

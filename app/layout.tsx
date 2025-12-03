@@ -4,8 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "VAKD Finder - 학습·진로 성향 진단",
-  description: "수능 이후 고3을 위한 학습·진로 성향 진단 서비스",
+  title: "VAKD Finder - 학습·업무 성향 진단",
+  description: "일반 성인을 위한 학습·업무 성향 진단 서비스",
 };
 
 export default function RootLayout({
