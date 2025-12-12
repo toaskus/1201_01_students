@@ -78,10 +78,28 @@ function ResultContent() {
     if (!resultRef.current) return;
 
     try {
+      // 이미지 저장 전 모든 섹션 펼치기
+      const allSections = new Set(['primary', 'subjects', 'performance', 'description', 'timeline', 'selfRegulation', 'solution']);
+      const originalExpanded = new Set(expandedSections);
+      setExpandedSections(allSections);
+
+      // DOM 업데이트를 기다림
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // 스크롤을 맨 위로 이동하여 전체 내용이 보이도록 함
+      resultRef.current.scrollIntoView({ behavior: 'instant', block: 'start' });
+      
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const dataUrl = await toPng(resultRef.current, {
         quality: 1.0,
         pixelRatio: 2,
+        backgroundColor: '#ffffff',
       });
+      
+      // 원래 상태로 복원
+      setExpandedSections(originalExpanded);
+      
       const link = document.createElement('a');
       link.download = `vakd-result-${sessionId || Date.now()}.png`;
       link.href = dataUrl;
@@ -89,6 +107,9 @@ function ResultContent() {
     } catch (error) {
       console.error('Failed to save image:', error);
       alert('이미지 저장에 실패했습니다.');
+      // 에러 발생 시에도 원래 상태로 복원
+      const originalExpanded = new Set(expandedSections);
+      setExpandedSections(originalExpanded);
     }
   };
 
@@ -141,8 +162,10 @@ function ResultContent() {
           </p>
         </div>
 
-        {/* Result Card - 캡처 대상 */}
-        <div ref={resultRef} className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+        {/* 전체 결과 영역 - 캡처 대상 */}
+        <div ref={resultRef} className="space-y-6">
+        {/* Result Card */}
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           {/* 점수 시각화 */}
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">VAKD 점수</h2>
@@ -224,7 +247,7 @@ function ResultContent() {
         </div>
 
         {/* 유형별 상세 설명 */}
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">유형별 상세 설명</h2>
           <div className="space-y-6">
             {result.primary.map((dim) => (
@@ -248,7 +271,7 @@ function ResultContent() {
         </div>
 
         {/* 과목별 적용 가이드 */}
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-gray-900">📚 과목별 적용 가이드</h2>
             <button
@@ -293,7 +316,7 @@ function ResultContent() {
         </div>
 
         {/* 성적 정체 원인 분석 */}
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-gray-900">🔍 성적이 정체될 때, 이런 이유일 수 있어요</h2>
             <button
@@ -323,7 +346,7 @@ function ResultContent() {
         </div>
 
         {/* 지금 vs 앞으로 전략 */}
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">⏱ 학습 전략 로드맵</h2>
           <div className="space-y-4">
             {result.primary.map((dim) => (
@@ -342,7 +365,7 @@ function ResultContent() {
         </div>
 
         {/* 자기조절 학습 팁 */}
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">🔧 너에게 맞는 공부 관리 팁</h2>
           <div className="space-y-4">
             {result.primary.map((dim) => (
@@ -365,7 +388,7 @@ function ResultContent() {
         </div>
 
         {/* 맞춤 솔루션 */}
-        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">나에게 맞는 솔루션</h2>
           <div className="space-y-4">
             {result.primary.map((dim) => (
@@ -385,6 +408,7 @@ function ResultContent() {
               </div>
             ))}
           </div>
+        </div>
         </div>
 
         {/* 결과 공유/저장 */}
