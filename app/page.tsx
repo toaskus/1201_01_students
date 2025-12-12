@@ -7,9 +7,9 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            공부는 하고 있는데,
+            나만의 방식을 찾는다면
             <br />
-            제대로 하고 있는지 확신이 없나요?
+            좀 더 효율적으로 공부할 수 있어.
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 mb-8">
             VAKD 진단으로 <span className="font-semibold text-blue-600">나에게 맞는 학습 전략</span>을 설계해보세요.
@@ -45,7 +45,7 @@ export default function Home() {
           <p className="text-gray-700 leading-relaxed mb-4">
             VAKD 검사는 당신이 정보를 어떻게 처리하는지 알아보는 진단 도구입니다.
             <br />
-            <strong>이런 방식으로 공부할 때 성과가 잘 나는 유형</strong>을 찾아, 과목별로 가장 효율적인 공부 전략을 스스로 설계할 수 있도록 돕습니다.
+            <strong>어떤 방식으로 공부할 때 더 좋은 성과가 나오는지를 찾아</strong>, 과목별로 가장 효율적인 공부 전략을 스스로 설계할 수 있도록 돕습니다.
           </p>
           <ul className="space-y-2 text-sm text-gray-600">
             <li className="flex items-start">
