@@ -7,8 +7,12 @@ import {
   dimensionNames,
   dimensionDescriptions,
   studyTips,
+  subjectGuides,
+  performanceAnalysis,
+  strategyTimeline,
+  selfRegulationTips,
 } from '@/lib/resultContent';
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, ResponsiveContainer } from 'recharts';
+import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { toPng } from 'html-to-image';
 
 function ResultContent() {
@@ -16,7 +20,7 @@ function ResultContent() {
   const router = useRouter();
   const [result, setResult] = useState<Result | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['primary']));
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['primary', 'subjects', 'performance']));
   const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -122,16 +126,18 @@ function ResultContent() {
     return colors[dimension];
   };
 
+  const primaryDim = result.primary[0];
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white px-4 py-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            당신의 학습·진로 스타일 결과
+            당신의 학습 전략 설계 결과
           </h1>
           <p className="text-gray-600 text-sm md:text-base">
-            점수는 성격을 &apos;줄 세우기&apos;가 아니라, <strong>정보를 어떻게 처리하는지에 대한 경향</strong>을 보여줘요.
+            점수는 성격을 &apos;줄 세우기&apos;가 아니라, <strong>이런 방식으로 공부할 때 성과가 잘 나는 유형</strong>을 보여줘요.
           </p>
         </div>
 
@@ -179,11 +185,11 @@ function ResultContent() {
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">당신의 유형</h2>
             <div className="space-y-4">
-              <div className="p-4 rounded-lg border-2" style={{ borderColor: getDimensionColor(result.primary[0]) }}>
+              <div className="p-4 rounded-lg border-2" style={{ borderColor: getDimensionColor(primaryDim) }}>
                 <div className="flex items-center mb-2">
                   <span
                     className="text-2xl font-bold mr-2"
-                    style={{ color: getDimensionColor(result.primary[0]) }}
+                    style={{ color: getDimensionColor(primaryDim) }}
                   >
                     Primary
                   </span>
@@ -192,7 +198,7 @@ function ResultContent() {
                   </span>
                 </div>
                 <p className="text-gray-700">
-                  {dimensionDescriptions[result.primary[0]].processing}
+                  {dimensionDescriptions[primaryDim].processing}
                 </p>
               </div>
               {result.secondary.length > 0 && (
@@ -241,16 +247,129 @@ function ResultContent() {
           </div>
         </div>
 
+        {/* 과목별 적용 가이드 */}
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-gray-900">📚 과목별 적용 가이드</h2>
+            <button
+              onClick={() => toggleSection('subjects')}
+              className="text-blue-600 hover:text-blue-700 text-sm"
+            >
+              {expandedSections.has('subjects') ? '접기' : '펼치기'}
+            </button>
+          </div>
+          {expandedSections.has('subjects') && (
+            <div className="space-y-4">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="px-4 py-3 text-left font-semibold text-gray-700">과목</th>
+                      <th className="px-4 py-3 text-left font-semibold text-gray-700">이렇게 공부할 때 효과적</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    <tr>
+                      <td className="px-4 py-3 font-medium text-gray-900">국어</td>
+                      <td className="px-4 py-3 text-gray-700">{subjectGuides[primaryDim].korean}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-medium text-gray-900">수학</td>
+                      <td className="px-4 py-3 text-gray-700">{subjectGuides[primaryDim].math}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-medium text-gray-900">영어</td>
+                      <td className="px-4 py-3 text-gray-700">{subjectGuides[primaryDim].english}</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-medium text-gray-900">탐구</td>
+                      <td className="px-4 py-3 text-gray-700">{subjectGuides[primaryDim].inquiry}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 성적 정체 원인 분석 */}
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-gray-900">🔍 성적이 정체될 때, 이런 이유일 수 있어요</h2>
+            <button
+              onClick={() => toggleSection('performance')}
+              className="text-blue-600 hover:text-blue-700 text-sm"
+            >
+              {expandedSections.has('performance') ? '접기' : '펼치기'}
+            </button>
+          </div>
+          {expandedSections.has('performance') && (
+            <div className="space-y-4">
+              <div className="p-4 bg-red-50 rounded-lg border-l-4" style={{ borderColor: getDimensionColor(primaryDim) }}>
+                <p className="font-semibold text-gray-900 mb-2">전략 불일치 가능성</p>
+                <p className="text-sm text-gray-700 mb-3">{performanceAnalysis[primaryDim].mismatch}</p>
+                <div className="mt-3 p-3 bg-white rounded border">
+                  <p className="font-semibold text-green-700 mb-1">✅ 해결 방법</p>
+                  <p className="text-sm text-gray-700">{performanceAnalysis[primaryDim].solution}</p>
+                </div>
+              </div>
+              <div className="p-4 bg-blue-50 rounded-lg">
+                <p className="text-sm text-gray-700">
+                  <strong>📌 포인트:</strong> 노력 부족 ❌ | 지능 문제 ❌ | <strong>전략 불일치 ⭕</strong>
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 지금 vs 앞으로 전략 */}
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">⏱ 학습 전략 로드맵</h2>
+          <div className="space-y-4">
+            {result.primary.map((dim) => (
+              <div key={dim} className="space-y-3">
+                <div className="p-4 bg-blue-50 rounded-lg border-l-4" style={{ borderColor: getDimensionColor(dim) }}>
+                  <h3 className="font-semibold text-gray-900 mb-2">📌 지금(내신/기본기)</h3>
+                  <p className="text-sm text-gray-700">{strategyTimeline[dim].now}</p>
+                </div>
+                <div className="p-4 bg-green-50 rounded-lg border-l-4" style={{ borderColor: getDimensionColor(dim) }}>
+                  <h3 className="font-semibold text-gray-900 mb-2">📈 앞으로(고3 대비/수능)</h3>
+                  <p className="text-sm text-gray-700">{strategyTimeline[dim].future}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 자기조절 학습 팁 */}
+        <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">🔧 너에게 맞는 공부 관리 팁</h2>
+          <div className="space-y-4">
+            {result.primary.map((dim) => (
+              <div key={dim} className="space-y-3">
+                <div className="p-4 bg-purple-50 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">📋 계획 세우는 법</h3>
+                  <p className="text-sm text-gray-700">{selfRegulationTips[dim].planning}</p>
+                </div>
+                <div className="p-4 bg-orange-50 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">💡 집중 깨질 때 회복 방법</h3>
+                  <p className="text-sm text-gray-700">{selfRegulationTips[dim].focus}</p>
+                </div>
+                <div className="p-4 bg-teal-50 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">🔄 복습 주기 추천</h3>
+                  <p className="text-sm text-gray-700">{selfRegulationTips[dim].review}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* 맞춤 솔루션 */}
         <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">나에게 맞는 솔루션</h2>
           <div className="space-y-4">
             {result.primary.map((dim) => (
               <div key={dim} className="space-y-4">
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900 mb-2">🎓 대학 강의 들을 때 이렇게 해보면 좋아요</h3>
-                  <p className="text-sm text-gray-700">{studyTips[dim].lecture}</p>
-                </div>
                 <div className="p-4 bg-green-50 rounded-lg">
                   <h3 className="font-semibold text-gray-900 mb-2">🧠 시험·과제 준비 공부법</h3>
                   <p className="text-sm text-gray-700">{studyTips[dim].exam}</p>
@@ -315,4 +434,3 @@ export default function ResultPage() {
     </Suspense>
   );
 }
-
